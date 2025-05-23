@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file           : room_control.h
- * @author         : Sam C
+ * @author         : Juan Esteban Mora
  * @brief          : Header file for Room Control Application
  ******************************************************************************
  */

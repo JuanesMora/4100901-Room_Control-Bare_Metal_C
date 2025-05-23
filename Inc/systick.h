@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file           : systick.h
- * @author         : Sam C
+ * @author         : Juan Esteban Mora
  * @brief          : Header file for SysTick driver for STM32L476RGTx
  ******************************************************************************
  */

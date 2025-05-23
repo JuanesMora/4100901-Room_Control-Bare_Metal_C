@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
  * @file           : gpio.c
- * @author         : Sam C
+ * @author         : Juan Esteban Mora
  * @brief          : GPIO driver for STM32L476RGTx
  ******************************************************************************
  */
 #include "gpio.h"
 #include "rcc.h"
 #include "nvic.h"
+#include "room_control.h"
 
 void gpio_setup_pin(GPIO_TypeDef *gpio_port, uint8_t pin_number,
                     uint8_t mode, uint8_t alternate_function)
@@ -69,12 +70,23 @@ uint8_t gpio_read_pin(GPIO_TypeDef *gpio_port, uint8_t pin_number)
  *        del archivo de arranque (startup_stm32l476rgtx.s).
  *        Esta ISR puede ser llamada por room_control.c si la lógica es compleja.
  */
-void EXTI15_10_IRQHandler(void) {
-    // 1. Verificar si la interrupción fue de la línea EXTI13
-    if ((EXTI->PR1 & (1U << 13)) != 0) {
-        // 2. Limpiar el flag de pendiente de la interrupción (escribiendo '1')
-        EXTI->PR1 |= (1U << 13);
-        // 3. Procesar boton presionado
+// void EXTI15_10_IRQHandler(void) 
+// {
+//     // 1. Verificar si la interrupción fue de la línea EXTI13
+//     if ((EXTI->PR1 & (1U << 13)) != 0) {
+//         // 2. Limpiar el flag de pendiente de la interrupción (escribiendo '1')
+//         EXTI->PR1 |= (1U << 13);
+//         // 3. Procesar boton presionado
+//     }
+// }
+
+
+void EXTI15_10_IRQHandler(void)
+{
+    if (EXTI->PR1 & (1U << 13)) // Verificar si fue EXTI13 (PC13)
+    {
+        EXTI->PR1 |= (1U << 13); // Limpiar flag de interrupción
+        room_control_on_button_press(); // Llamar a tu función
     }
 }
 

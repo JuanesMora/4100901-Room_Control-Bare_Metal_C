@@ -1,13 +1,15 @@
 /**
  ******************************************************************************
  * @file           : nvic.c
- * @author         : Sam C
+ * @author         : Juan Esteban Mora
  * @brief          : NVIC driver for STM32L476RGTx
  ******************************************************************************
  */
 #include "nvic.h"
 #include "rcc.h"  // Para habilitar relojes de GPIOC y SYSCFG
 #include "uart.h"
+
+
 
 
 #define NVIC_ENABLE_IRQ(IRQn) (NVIC->ISER[IRQn / 32U] |= (1UL << (IRQn % 32U)))

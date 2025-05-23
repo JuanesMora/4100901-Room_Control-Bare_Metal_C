@@ -1,13 +1,15 @@
 /**
  ******************************************************************************
  * @file           : uart.c
- * @author         : Sam C
+ * @author         : Juan Esteban Mora
  * @brief          : UART driver for STM32L476RGTx
  ******************************************************************************
  */
 #include "uart.h"
 #include "rcc.h"  // Para rcc_usart2_clock_enable y PCLK1_FREQ_HZ
 #include "gpio.h" // Para configurar pines PA2, PA3
+#include "room_control.h" // Para llamar a room_control_on_uart_receive()
+
 
 
 // USART_ISR bits
@@ -65,13 +67,17 @@ void uart2_send_string(const char *str)
  *        Este handler se llama cuando hay datos recibidos en USART2.
  *        Procesa el dato recibido y lo envía de vuelta (eco).
  */
+
 void USART2_IRQHandler(void)
 {
-    // Verificar si la interrupción fue por RXNE (dato recibido y RDR no vacío)
+    // Verificar si la interrupción fue por RXNE (dato recibido)
     if (USART2->ISR & USART_ISR_RXNE) {
-        // Leer el dato del RDR. Esta acción usualmente limpia el flag RXNE.
+        // Leer el dato recibido
         char received_char = (char)(USART2->RDR & 0xFF);
-        uart2_send_char(received_char); // Eco del carácter recibido 
-        // Procesar el carácter recibido.
+
+        // Procesar el carácter recibido en tu lógica de aplicación
+        room_control_on_uart_receive(received_char);
     }
 }
+
+

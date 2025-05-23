@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file           : main.c
- * @author         : Sam C
+ * @author         : Juan Esteban Mora
  * @brief          : Main program body
  ******************************************************************************
  */
@@ -12,14 +12,14 @@
 #include "tim.h"
 #include "room_control.h"
 
-void heartbeat_led_toggle(void)
-{
-    static uint32_t last_tick = 0;
-    if (systick_get_tick() - last_tick >= 500) { // Cambia cada 500 ms
-        gpio_toggle_pin(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN);
-        last_tick = systick_get_tick();
-    }
-}
+//void heartbeat_led_toggle(void)
+//{
+//     static uint32_t last_tick = 0;
+//     if (systick_get_tick() - last_tick >= 500) { // Cambia cada 500 ms
+//         gpio_toggle_pin(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN);
+//         last_tick = systick_get_tick();
+//     }
+// }
 
 /**
  * @brief Función principal del programa.
@@ -55,7 +55,7 @@ int main(void)
     // Mensaje de bienvenida o estado inicial (puede estar en room_control_app_init o aquí)
     uart2_send_string("\r\nSistema Inicializado. Esperando eventos...\r\n");
     while (1) {
-        heartbeat_led_toggle();
+        room_control_app_update();
     }
 }
 
